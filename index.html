@@ -17,24 +17,58 @@
         }
 
         :root {
-            --bg-primary: #070b14;
-            --bg-secondary: #0d1321;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --text-primary: #f0f2f8;
-            --text-secondary: #8892a8;
-            --text-muted: #4a5568;
-            --accent-1: #1a56db;
-            --accent-2: #3b82f6;
+            /* ===== Color System ===== */
+            --bg-primary: #04070c;
+            --bg-secondary: #0a0f1c;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #475569;
+
+            /* ===== Accent Colors ===== */
+            --accent-1: #3b82f6;
+            --accent-2: #8b5cf6;
             --accent-3: #f59e0b;
             --accent-4: #06b6d4;
             --accent-5: #ef4444;
-            --gradient-1: linear-gradient(135deg, #1a56db, #3b82f6, #06b6d4);
-            --gradient-2: linear-gradient(135deg, #f59e0b, #1a56db);
-            --gradient-3: linear-gradient(135deg, #1a56db, #06b6d4);
+
+            /* ===== Gradients ===== */
+            --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+            --gradient-2: linear-gradient(135deg, #f59e0b, #fef08a);
+            --gradient-3: linear-gradient(135deg, #8b5cf6, #06b6d4);
             --gradient-gold: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
-            --border-color: rgba(255, 255, 255, 0.06);
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --gradient-mesh: radial-gradient(at 40% 20%, hsla(228,100%,74%,0.15) 0px, transparent 50%),
+                             radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%),
+                             radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%),
+                             radial-gradient(at 80% 50%, hsla(340,100%,76%,0.1) 0px, transparent 50%),
+                             radial-gradient(at 0% 100%, hsla(22,100%,77%,0.1) 0px, transparent 50%),
+                             radial-gradient(at 80% 100%, hsla(242,100%,70%,0.15) 0px, transparent 50%),
+                             radial-gradient(at 0% 0%, hsla(343,100%,76%,0.1) 0px, transparent 50%);
+
+            /* ===== Borders & Glass ===== */
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-highlight: rgba(255, 255, 255, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+            /* ===== Spacing System ===== */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 40px;
+            --space-2xl: 64px;
+            --space-3xl: 100px;
+
+            /* ===== Typography Scale ===== */
+            --fs-caption: 0.75rem;
+            --fs-small: 0.85rem;
+            --fs-body: 0.95rem;
+            --fs-subheading: 1.15rem;
+            --fs-heading: clamp(1.8rem, 4vw, 2.8rem);
+            --fs-display: clamp(2.5rem, 6vw, 4.5rem);
         }
 
         html {
@@ -50,6 +84,15 @@
         }
 
         /* ===== Animated Background ===== */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
         .bg-gradient-orbs {
             position: fixed;
             top: 0;
@@ -59,6 +102,7 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
+            background-image: var(--gradient-mesh);
         }
 
         .orb {
@@ -103,14 +147,25 @@
             75% { transform: translate(80px, 40px) scale(1.05); }
         }
 
-        /* ===== Navigation ===== */
-        nav {
+        /* ===== Scroll Progress Bar ===== */
+        .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--gradient-1);
+            z-index: 1100;
+        }
+
+        /* ===== Navigation ===== */
+        nav {
+            position: fixed;
+            top: 3px;
+            left: 0;
             width: 100%;
             z-index: 1000;
-            padding: 16px 40px;
+            padding: var(--space-md) var(--space-xl);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -140,7 +195,7 @@
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 0.88rem;
+            font-size: var(--fs-small);
             font-weight: 500;
             transition: color 0.3s ease;
             position: relative;
@@ -157,11 +212,13 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--text-primary);
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
 
@@ -192,6 +249,8 @@
             cursor: pointer;
             padding: 8px;
             z-index: 1001;
+            background: none;
+            border: none;
         }
 
         .hamburger span {
@@ -241,11 +300,11 @@
             gap: 10px;
             padding: 10px 22px;
             border-radius: 100px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.25);
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.25);
             font-size: 0.88rem;
             font-weight: 600;
-            color: #fca5a5;
+            color: #67e8f9;
             margin-bottom: 36px;
             animation: fadeInUp 0.8s ease;
         }
@@ -254,9 +313,9 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--accent-5);
+            background: var(--accent-4);
             animation: pulse 1.5s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
         }
 
         @keyframes pulse {
@@ -265,12 +324,51 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.2rem, 5.5vw, 4rem);
+            font-size: var(--fs-display);
             font-weight: 900;
-            line-height: 1.15;
-            letter-spacing: -1.5px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: var(--space-lg);
+            position: relative;
+        }
+
+        /* Sample page notice — extracted from inline style */
+        .sample-notice {
+            margin-top: -10px;
             margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease 0.1s both;
+            font-size: var(--fs-body);
+            color: #fca5a5;
+            font-weight: 500;
+        }
+
+        /* CTA gold highlight text — extracted from inline style */
+        .cta-gold-text {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Nav logo sample badge — extracted from inline style */
+        .nav-sample-badge {
+            font-size: 0.6em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-left: var(--space-sm);
+        }
+
+        .split-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotate(-2deg);
+            animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
         }
 
         .hero h1 .gradient-text {
@@ -379,10 +477,30 @@
             background: var(--gradient-gold);
             color: #0a0a0f;
             box-shadow: 0 4px 20px rgba(245, 158, 11, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
         }
 
@@ -395,6 +513,54 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-2px);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulseBounce 2s infinite;
+        }
+
+        .scroll-indicator .mouse {
+            width: 22px;
+            height: 34px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-indicator .mouse::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: mouseWheel 2s infinite;
+        }
+
+        @keyframes mouseWheel {
+            0% { top: 6px; opacity: 1; }
+            100% { top: 18px; opacity: 0; }
+        }
+
+        @keyframes pulseBounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
         }
 
         /* ===== Section Common ===== */
@@ -418,10 +584,10 @@
         }
 
         .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-size: var(--fs-heading);
             font-weight: 800;
             letter-spacing: -1px;
-            margin-bottom: 16px;
+            margin-bottom: var(--space-md);
         }
 
         .section-desc {
@@ -493,9 +659,11 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 32px;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s ease;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            box-shadow: var(--glass-shadow);
         }
 
         .timeline-card::before {
@@ -505,19 +673,19 @@
             left: 0;
             right: 0;
             height: 2px;
-            opacity: 0;
+            opacity: 0.3;
             transition: opacity 0.4s ease;
         }
 
         .timeline-item:nth-child(1) .timeline-card::before { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
-        .timeline-item:nth-child(2) .timeline-card::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
-        .timeline-item:nth-child(3) .timeline-card::before { background: linear-gradient(90deg, var(--accent-4), #67e8f9); }
+        .timeline-item:nth-child(2) .timeline-card::before { background: linear-gradient(90deg, var(--accent-2), var(--accent-4)); }
+        .timeline-item:nth-child(3) .timeline-card::before { background: linear-gradient(90deg, var(--accent-4), var(--accent-1)); }
         .timeline-item:nth-child(4) .timeline-card::before { background: linear-gradient(90deg, var(--accent-3), #fbbf24); }
 
         .timeline-card:hover {
-            transform: translateX(8px);
-            border-color: rgba(59, 130, 246, 0.3);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-highlight);
+            background: var(--bg-card-hover);
+            box-shadow: 0 8px 40px rgba(59, 130, 246, 0.08);
         }
 
         .timeline-card:hover::before {
@@ -576,11 +744,13 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 36px 28px;
+            padding: 40px 32px;
             text-align: center;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s ease;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            box-shadow: var(--glass-shadow);
         }
 
         .benefit-card::after {
@@ -589,21 +759,21 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: var(--gradient-gold);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .benefit-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(245, 158, 11, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-color: rgba(245, 158, 11, 0.4);
+            background: var(--bg-card-hover);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(245, 158, 11, 0.06);
         }
 
         .benefit-card:hover::after {
-            opacity: 1;
+            transform: scaleX(1);
         }
 
         .benefit-icon {
@@ -649,15 +819,43 @@
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dot matrix background pattern */
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
+            gap: var(--space-xl);
             max-width: 1000px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            padding: var(--space-lg);
+            border-radius: 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: var(--border-highlight);
+            background: var(--bg-card-hover);
         }
 
         .stat-item h3 {
@@ -667,13 +865,21 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
         }
 
         .stat-item p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: var(--fs-body);
             font-weight: 500;
+        }
+
+        /* ===== Section Divider ===== */
+        .section-divider {
+            height: 1px;
+            max-width: 300px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), var(--border-highlight), rgba(6, 182, 212, 0.3), transparent);
         }
 
         /* ===== Schedule & Location Section ===== */
@@ -918,6 +1124,17 @@
         .fade-in-delay-3 { transition-delay: 0.3s; }
         .fade-in-delay-4 { transition-delay: 0.4s; }
 
+        /* ===== Accessibility: Focus Visible ===== */
+        *:focus-visible {
+            outline: 2px solid var(--accent-1);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        a:focus-visible {
+            outline-offset: 2px;
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
             nav {
@@ -958,6 +1175,10 @@
 
             .hero {
                 padding: 100px 20px 60px;
+            }
+
+            .scroll-indicator {
+                display: none;
             }
 
             .hero h1 {
@@ -1030,43 +1251,48 @@
     </style>
 </head>
 <body>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
     <!-- Animated Background Orbs -->
-    <div class="bg-gradient-orbs">
+    <div class="bg-gradient-orbs" aria-hidden="true">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
 
     <!-- Navigation -->
-    <nav>
-        <div class="nav-logo">MBC AI 저널리스트 양성과정 <span style="font-size: 0.6em; font-weight: 500; color: var(--text-secondary); margin-left: 8px;">(강의 과정 중 제작된 샘플 페이지입니다)</span></div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#home">홈</a></li>
-            <li><a href="#curriculum">커리큘럼</a></li>
-            <li><a href="#benefits">교육 혜택</a></li>
-            <li><a href="#schedule">일정·장소</a></li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    <header>
+        <nav role="navigation" aria-label="메인 네비게이션">
+            <div class="nav-logo">MBC AI 저널리스트 양성과정 <span class="nav-sample-badge">(강의 과정 중 제작된 샘플 페이지입니다)</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#curriculum">커리큘럼</a></li>
+                <li><a href="#benefits">교육 혜택</a></li>
+                <li><a href="#schedule">일정·장소</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
 
-    <div class="content">
+    <main>
         <!-- Hero Section -->
-        <section class="hero" id="home">
+        <section class="hero" id="home" aria-label="메인 히어로">
             <div class="hero-content">
                 <div class="hero-badge">
                     <span class="live-dot"></span>
                     2기 모집중 · 2026.04.20 ~ 08.12
                 </div>
 
-                <h1>
+                <h1 class="split-text-container">
                     <span class="gold-text">MBC</span> <span class="gradient-text">AI 데이터</span><br>
-                    <span class="gradient-text">저널리즘 전문가</span> 과정
+                    <span class="gradient-text">저널리즘 전문가</span> <span class="gradient-text">과정</span>
                 </h1>
-                <div style="margin-top: -10px; margin-bottom: 20px; font-size: 0.95rem; color: #fca5a5; font-weight: 500;">
+                <div class="sample-notice">
                     ※ 본 사이트는 강의 과정 중에 제작된 샘플 페이지입니다.
                 </div>
                 <p class="hero-subtitle">
@@ -1102,11 +1328,17 @@
                         커리큘럼 보기
                     </a>
                 </div>
+
+                <!-- Scroll Down Indicator -->
+                <div class="scroll-indicator fade-in fade-in-delay-4">
+                    <span class="mouse"></span>
+                    Scroll
+                </div>
             </div>
         </section>
 
         <!-- Curriculum Timeline Section -->
-        <section id="curriculum" class="curriculum-section">
+        <section id="curriculum" class="curriculum-section" aria-label="커리큘럼">
             <div class="section-header fade-in">
                 <span class="section-label">Curriculum</span>
                 <h2 class="section-title">4단계 교육 커리큘럼</h2>
@@ -1115,7 +1347,7 @@
             <div class="timeline">
                 <div class="timeline-item fade-in fade-in-delay-1">
                     <div class="timeline-step step-1">1</div>
-                    <div class="timeline-card">
+                    <div class="timeline-card tilt-card">
                         <div class="timeline-card-header">
                             <span class="timeline-icon">📰</span>
                             <h3>기초 저널리즘 & 데이터 분석</h3>
@@ -1131,7 +1363,7 @@
                 </div>
                 <div class="timeline-item fade-in fade-in-delay-2">
                     <div class="timeline-step step-2">2</div>
-                    <div class="timeline-card">
+                    <div class="timeline-card tilt-card">
                         <div class="timeline-card-header">
                             <span class="timeline-icon">🐍</span>
                             <h3>데이터 크롤링 & Python 자동화</h3>
@@ -1147,7 +1379,7 @@
                 </div>
                 <div class="timeline-item fade-in fade-in-delay-3">
                     <div class="timeline-step step-3">3</div>
-                    <div class="timeline-card">
+                    <div class="timeline-card tilt-card">
                         <div class="timeline-card-header">
                             <span class="timeline-icon">🔍</span>
                             <h3>AI 팩트체킹 & 뉴스 자동화</h3>
@@ -1163,7 +1395,7 @@
                 </div>
                 <div class="timeline-item fade-in fade-in-delay-4">
                     <div class="timeline-step step-4">4</div>
-                    <div class="timeline-card">
+                    <div class="timeline-card tilt-card">
                         <div class="timeline-card-header">
                             <span class="timeline-icon">🎬</span>
                             <h3>생성형 AI 콘텐츠 제작</h3>
@@ -1180,8 +1412,11 @@
             </div>
         </section>
 
+        <!-- Section Divider -->
+        <div class="section-divider" aria-hidden="true"></div>
+
         <!-- Stats Section -->
-        <section class="stats-section">
+        <section class="stats-section" aria-label="통계">
             <div class="stats-grid fade-in">
                 <div class="stat-item">
                     <h3><span class="count-up" data-target="640">0</span>시간</h3>
@@ -1202,33 +1437,36 @@
             </div>
         </section>
 
+        <!-- Section Divider -->
+        <div class="section-divider" aria-hidden="true"></div>
+
         <!-- Benefits Section -->
-        <section id="benefits">
+        <section id="benefits" aria-label="교육 혜택">
             <div class="section-header fade-in">
                 <span class="section-label">Benefits</span>
                 <h2 class="section-title">교육생 혜택</h2>
                 <p class="section-desc">최고의 환경에서 부담 없이 학습하세요</p>
             </div>
             <div class="benefits-grid">
-                <div class="benefit-card fade-in fade-in-delay-1">
+                <div class="benefit-card tilt-card fade-in fade-in-delay-1">
                     <div class="benefit-icon gold">💰</div>
                     <div class="highlight-text">전액 무료</div>
                     <h3>교육비 국비 지원</h3>
                     <p>고용노동부 K-디지털 트레이닝 사업으로 교육비 전액이 지원됩니다.</p>
                 </div>
-                <div class="benefit-card fade-in fade-in-delay-2">
+                <div class="benefit-card tilt-card fade-in fade-in-delay-2">
                     <div class="benefit-icon blue">📋</div>
                     <div class="highlight-text">월 최대 80만 원</div>
                     <h3>훈련수당 지급</h3>
                     <p>국민취업지원제도 1유형 참여 시 매월 최대 80만 원의 훈련 장려금을 받을 수 있습니다.</p>
                 </div>
-                <div class="benefit-card fade-in fade-in-delay-3">
+                <div class="benefit-card tilt-card fade-in fade-in-delay-3">
                     <div class="benefit-icon cyan">💻</div>
                     <div class="highlight-text">최고급 장비</div>
                     <h3>고사양 장비 & 라이선스</h3>
                     <p>개인별 고사양 PC, GPT 비즈니스, Adobe CC 등 유료 소프트웨어 라이선스와 교재를 무상 지원합니다.</p>
                 </div>
-                <div class="benefit-card fade-in fade-in-delay-4">
+                <div class="benefit-card tilt-card fade-in fade-in-delay-4">
                     <div class="benefit-icon green">🚀</div>
                     <div class="highlight-text">취업 연계</div>
                     <h3>포트폴리오 & 커리어 지원</h3>
@@ -1238,7 +1476,7 @@
         </section>
 
         <!-- Schedule & Location Section -->
-        <section id="schedule">
+        <section id="schedule" aria-label="교육 일정 및 장소">
             <div class="section-header fade-in">
                 <span class="section-label">Schedule & Location</span>
                 <h2 class="section-title">교육 일정 & 장소</h2>
@@ -1294,8 +1532,8 @@
                             <span><strong>버스</strong> 지선 6715 / 간선 171, 271, 470</span>
                         </div>
                         <div class="map-buttons">
-                            <a href="https://naver.me/FtoXNltT" class="map-btn" target="_blank">🗺️ 네이버 지도</a>
-                            <a href="https://kko.kakao.com/UCkbEUmHWM" class="map-btn" target="_blank">📍 카카오맵</a>
+                            <a href="https://naver.me/FtoXNltT" class="map-btn" target="_blank" rel="noopener noreferrer">🗺️ 네이버 지도</a>
+                            <a href="https://kko.kakao.com/UCkbEUmHWM" class="map-btn" target="_blank" rel="noopener noreferrer">📍 카카오맵</a>
                         </div>
                     </div>
                 </div>
@@ -1303,36 +1541,36 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="cta-section" id="apply">
+        <section class="cta-section" id="apply" aria-label="지원 안내">
             <div class="cta-card fade-in">
-                <h2>AI 데이터 저널리스트의 첫걸음,<br><span style="background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">지금 시작하세요</span></h2>
+                <h2>AI 데이터 저널리스트의 첫걸음,<br><span class="cta-gold-text">지금 시작하세요</span></h2>
                 <p class="cta-subtitle">MBC와 함께 미디어 콘텐츠의 미래를 만들어가세요.</p>
                 <div class="cta-buttons">
-                    <a href="https://www.work24.go.kr/hr/a/a/3100/selectTracseDetl1.do?tracseId=AIG20250000501722&tracseTme=2&cstmConsTme=&crseTracseSe=C0061&trainstCstmrId=500020060638&tracseReqstsCd=&focusId=" class="cta-link outline" target="_blank">
+                    <a href="https://www.work24.go.kr/hr/a/a/3100/selectTracseDetl1.do?tracseId=AIG20250000501722&tracseTme=2&cstmConsTme=&crseTracseSe=C0061&trainstCstmrId=500020060638&tracseReqstsCd=&focusId=" class="cta-link outline" target="_blank" rel="noopener noreferrer">
                         🏛️ 고용24 바로가기
                     </a>
-                    <a href="https://pf.kakao.com/_KXxdTn" class="cta-link outline" target="_blank">
+                    <a href="https://pf.kakao.com/_KXxdTn" class="cta-link outline" target="_blank" rel="noopener noreferrer">
                         💬 카카오톡 문의
                     </a>
                 </div>
                 <div class="cta-contact-info">
                     <span>📞 <a href="tel:02-789-4519">02-789-4519</a></span>
                     <span>📧 <a href="mailto:help@mbc-hrd.com">help@mbc-hrd.com</a></span>
-                    <span>🌐 <a href="https://www.mbc-hrd.com" target="_blank">mbc-hrd.com</a></span>
+                    <span>🌐 <a href="https://www.mbc-hrd.com" target="_blank" rel="noopener noreferrer">mbc-hrd.com</a></span>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer>
+        <footer role="contentinfo">
             <p>© 2026 MBC HRD 센터 · (주)문화방송 · 고용노동부 K-디지털 트레이닝 디지털선도기업아카데미</p>
             <div class="footer-links">
-                <a href="https://www.mbc-hrd.com" target="_blank">공식 홈페이지</a>
-                <a href="https://www.youtube.com/@MBCHRDCENTER/videos" target="_blank">YouTube</a>
-                <a href="https://pf.kakao.com/_KXxdTn" target="_blank">카카오톡</a>
+                <a href="https://www.mbc-hrd.com" target="_blank" rel="noopener noreferrer">공식 홈페이지</a>
+                <a href="https://www.youtube.com/@MBCHRDCENTER/videos" target="_blank" rel="noopener noreferrer">YouTube</a>
+                <a href="https://pf.kakao.com/_KXxdTn" target="_blank" rel="noopener noreferrer">카카오톡</a>
             </div>
         </footer>
-    </div>
+    </main>
 
     <script>
         // ===== Countdown Timer =====
@@ -1409,7 +1647,10 @@
             counterObserver.observe(el);
         });
 
-        // ===== Smooth Nav Background on Scroll =====
+        // ===== Scroll Progress Bar =====
+        const scrollProgressBar = document.getElementById('scrollProgress');
+
+        // ===== Smooth Nav Background on Scroll + Progress Bar =====
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
@@ -1417,21 +1658,96 @@
             } else {
                 nav.style.background = 'rgba(7, 11, 20, 0.75)';
             }
+
+            // Update scroll progress
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgressBar.style.width = scrollPercent + '%';
         });
 
-        // ===== Hamburger Menu =====
+        // ===== Nav Active State (Scroll-linked) =====
+        const navSections = document.querySelectorAll('section[id]');
+        const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    navLinksAll.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+
+        navSections.forEach(section => sectionObserver.observe(section));
+
+        // ===== Hamburger Menu (with ARIA) =====
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
 
         hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
+            const isActive = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isActive);
+            hamburger.setAttribute('aria-label', isActive ? '메뉴 닫기' : '메뉴 열기');
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.setAttribute('aria-label', '메뉴 열기');
+            });
+        });
+
+        // ===== 3D Tilt Effect =====
+        const isDesktop = window.matchMedia("(min-width: 768px)");
+        
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            let rafId = null;
+            
+            card.addEventListener('mousemove', e => {
+                if (!isDesktop.matches) return;
+                
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                if(rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    const multiplier = 20; 
+                    card.style.transform = `perspective(1000px) rotateX(${-y / multiplier}deg) rotateY(${x / multiplier}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (!isDesktop.matches) return;
+                
+                if(rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+                });
+            });
+        });
+
+        // ===== Split Text Reveal =====
+        document.querySelectorAll('.split-text-container').forEach(container => {
+            const textNodes = Array.from(container.childNodes).filter(node => 
+                node.nodeType === 3 && node.textContent.trim() !== '' || 
+                node.nodeType === 1 && node.tagName !== 'BR' && !node.classList.contains('split-text')
+            );
+            
+            let delayNum = 0;
+            // Very rudimentary text wrapping for split effect - we wrap elements in split-text to give it the delay
+            container.classList.add('split-text');
+            Array.from(container.children).forEach((child) => {
+                if(child.tagName !== 'BR') {
+                    child.style.animationDelay = `${delayNum * 0.15}s`;
+                    delayNum++;
+                }
             });
         });
     </script>
